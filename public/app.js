@@ -86,10 +86,7 @@ app.client.request = function(headers,path,method,queryStringObject,payload,call
 
 app.addTocart = function(item){
   
-    
-    console.log("Bought");
-    console.log(item);
-  /*
+      
   let cart = localStorage.getItem('cart');
   cart = JSON.parse(cart);
   console.log(elmnt);
