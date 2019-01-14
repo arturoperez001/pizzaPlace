@@ -84,14 +84,12 @@ app.client.request = function(headers,path,method,queryStringObject,payload,call
 
 };
 
-app.addTocart = function(item){
+app.addTocart = function(itemId){
   
-      
   let cart = localStorage.getItem('cart');
   cart = JSON.parse(cart);
-  console.log(elmnt);
-  
-  if(cart){
+  console.log(itemId);
+  if(cart||cart.find(a=>a.id==itemId)?cart.find(a=>a.id==itemId):false){
     //console.log(cart.item);
     cart.map(a=>{
                                   if(a.id==itemId)
@@ -104,10 +102,11 @@ app.addTocart = function(item){
     cart = JSON.stringify(cart);
     localStorage.setItem('cart',cart);
   }else{
-    cart = [{
+    item = {
               'id' : itemId,
               'quantity': 1 
-            }];
+            };
+    cart.push(item);
     cart = JSON.stringify(cart);
     //cont
     localStorage.setItem('cart',cart);
@@ -507,7 +506,7 @@ app.loadMenuList = function(){
                                             </div>
                                             <div class="row">
                                               <p class="lead" id="price">$ ${item.price}</p>
-                                              <button class="cta green" id="buy" onClick="app.addTocart('${item}')">Add</button>
+                                              <button class="cta green" id="buy" onClick="app.addTocart('${item.id}')">Add</button>
                                             </div>
                                         </div>`;
                       
