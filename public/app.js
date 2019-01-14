@@ -12,7 +12,9 @@ app.config = {
 };
 
 // AJAX Client (for RESTful API)
-app.client = {}
+app.client = {};
+
+app.cart = {};
 
 // Interface for making API calls
 app.client.request = function(headers,path,method,queryStringObject,payload,callback){
@@ -82,7 +84,61 @@ app.client.request = function(headers,path,method,queryStringObject,payload,call
 
 };
 
+app.addTocart = function(item){
+  
+    
+    console.log("Bought");
+    console.log(item);
+  /*
+  let cart = localStorage.getItem('cart');
+  cart = JSON.parse(cart);
+  console.log(elmnt);
+  
+  if(cart){
+    //console.log(cart.item);
+    cart.map(a=>{
+                                  if(a.id==itemId)
+                                  {
+                                    a.quantity++;
+                                    return a;
+                                  }
+                                  return a;
+                                });
+    cart = JSON.stringify(cart);
+    localStorage.setItem('cart',cart);
+  }else{
+    cart = [{
+              'id' : itemId,
+              'quantity': 1 
+            }];
+    cart = JSON.stringify(cart);
+    //cont
+    localStorage.setItem('cart',cart);
+    console.log(cart);
+  }
+  //localStorage.setItem('cart',tokenString);
+  //*/
+}
+
+app.rmvFromCart = function(){
+
+}
+
+//app.
+
+/*
 // Bind the logout button
+app.bindBuyButton = function(){
+  document.getElementById("buy").addEventListener("click", function(e){
+
+    // Stop it from redirecting anywhere
+    e.preventDefault();
+    
+    console.log("Bought");
+  });
+};
+//*/
+// Bind the Buy button
 app.bindLogoutButton = function(){
   document.getElementById("logoutButton").addEventListener("click", function(e){
 
@@ -447,22 +503,28 @@ app.loadMenuList = function(){
                                         <div class="framePadding">
                                         <img class="photo" src="http://placehold.it/200x150" alt="" />
                                             <div class="row">
-                                            <h3 class="title">`+item.name.trim()+`</h3>
+                                            <h3 class="title">${item.name.trim()}</h3>
                                               <p class="description">
-                                                `+item.description.trim()+`
+                                                ${item.description.trim()}
                                               </p>
                                             </div>
                                             <div class="row">
-                                              <p class="lead" id="price">$`+item.price+`</p>
-                                              <a class="cta green" href="http://www.jquery2dotnet.com">Add</a>
+                                              <p class="lead" id="price">$ ${item.price}</p>
+                                              <button class="cta green" id="buy" onClick="app.addTocart('${item}')">Add</button>
                                             </div>
                                         </div>`;
                       
                       //li.appendChild(btn);
                       menu.append(li);
                       
+                        
                     }
+                    
           )
+          // Bind buy button
+          //app.bindBuyButton();
+          
+
         } else {
           let li    = document.createElement("LI");
           li.innerHTML=`
@@ -547,6 +609,7 @@ app.init = function(){
 
   // Bind logout logout button
   app.bindLogoutButton();
+
 
   // Get the token from localstorage
   app.getSessionToken();
