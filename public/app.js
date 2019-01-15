@@ -84,33 +84,32 @@ app.client.request = function(headers,path,method,queryStringObject,payload,call
 
 };
 
-app.addTocart = function(itemId){
-  
+app.addTocart = function(item){
+
   let cart = localStorage.getItem('cart');
-  cart = JSON.parse(cart);
-  console.log(itemId);
-  if(cart||cart.find(a=>a.id==itemId)?cart.find(a=>a.id==itemId):false){
-    //console.log(cart.item);
-    cart.map(a=>{
-                                  if(a.id==itemId)
-                                  {
-                                    a.quantity++;
+  cart = cart?JSON.parse(cart):[];
+  if(cart&&cart.find(a=>a.id==item.id)){
+      cart.map(a=>{
+                                    if(a.id==item.id)
+                                    {
+                                      a.quantity++;
+                                      return a;
+                                    }
                                     return a;
-                                  }
-                                  return a;
-                                });
-    cart = JSON.stringify(cart);
-    localStorage.setItem('cart',cart);
+                                  });
+      cart = JSON.stringify(cart);
+      localStorage.setItem('cart',cart);
   }else{
-    item = {
-              'id' : itemId,
-              'quantity': 1 
+    itemNew = {
+              'id' : item.id,
+              'quantity': 1,
+              'price': item.price
             };
-    cart.push(item);
+    cart.push(itemNew);
     cart = JSON.stringify(cart);
     //cont
     localStorage.setItem('cart',cart);
-    console.log(cart);
+    //console.log(cart);
   }
   //localStorage.setItem('cart',tokenString);
   //*/
@@ -416,6 +415,11 @@ app.loadDataOnPage = function(){
     app.loadMenuList();
   }
 
+  // Logic for dashboard page
+  if(primaryClass == 'cart'){
+    app.loadCartList();
+  }
+
   // Logic for check details page
   if(primaryClass == 'checksEdit'){
     app.loadChecksEditPage();
@@ -454,6 +458,51 @@ app.loadAccountEditPage = function(){
     app.logUserOut();
   }
 };
+
+// Load Menu items 
+app.loadCartList = function(){
+  
+  var email = typeof(app.config.sessionToken.email) == 'string' ? app.config.sessionToken.email : false;
+  if(email){
+    // Fetch the user data
+    /*
+    var queryStringObject = {
+      'email' : email
+    };
+    //*/
+    let cart = localStorage.getItem('cart');
+    cart = cart?JSON.parse(cart):[];
+    console.log(cart);
+    if(cart){
+
+      let menu = document.getElementById("cartList");
+        cart.forEach(
+          (item)=>{
+                    let li    = document.createElement("tr");
+                    let div = document.createElement("div");
+                    let price = document.createElement("div");
+                    let btn   = document.createElement("button");
+
+                    div.className = "block";
+                    btn.appendChild(document.createTextNode("Add"));
+                    price.appendChild(document.createTextNode('$'+item.price));
+                    //price.appendChild(btn);
+                    //console.log(price);
+
+                    li.className = "product"; 
+                    menu.innerHTML = `
+                                    <td>${item.name}</td>
+                                    <td>${item.quantity}<button class="cta green" id="buy" onClick="app.addTocart({id:'${item.id}',price:'${item.price}' })">Add</button></td>
+                                    <td>$ ${item.price}</td>
+                                    <td>${item.quantity*item.price}</td>
+                                    `;
+                    //li.appendChild(btn);
+                    menu.append(li);
+                  })
+    }
+
+  }
+}
 
 // Load Menu items 
 app.loadMenuList = function(){
@@ -506,17 +555,12 @@ app.loadMenuList = function(){
                                             </div>
                                             <div class="row">
                                               <p class="lead" id="price">$ ${item.price}</p>
-                                              <button class="cta green" id="buy" onClick="app.addTocart('${item.id}')">Add</button>
+                                              <button class="cta green" id="buy" onClick="app.addTocart({id:'`+item.id+`',price:'`+item.price+`' })">Add</button>
                                             </div>
                                         </div>`;
-                      
                       //li.appendChild(btn);
                       menu.append(li);
-                      
-                        
-                    }
-                    
-          )
+                    })
           // Bind buy button
           //app.bindBuyButton();
           

@@ -183,7 +183,13 @@ body,p,h1,h2,h3,h4,h5,h6,div,span,header,footer,img,a,a:hover,a:active,a:visited
     display: block;
     margin: 0 -20px;
   }
+  /* Cart Style */
 
+  td.totales {
+    font-weight: bold;    
+    text-align: right;    
+    font-size: 17.25px;
+  }
   /* Menu style */
   ul {
     list-style-type: none;
