@@ -1,0 +1,22 @@
+{
+  "name": "apppizzeriavirtual",
+  "version": "1.0.0",
+  "description": "Programa de control de ventas de una pizzeria:",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "start": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/arturoperez001/apppizzeriavirtual.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/arturoperez001/apppizzeriavirtual/issues"
+  },
+  "homepage": "https://gitlab.com/arturoperez001/apppizzeriavirtual#readme"
+}
